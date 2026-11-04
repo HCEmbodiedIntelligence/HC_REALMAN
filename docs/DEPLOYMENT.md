@@ -25,3 +25,12 @@ GND 也接对应末端。禁止带电插拔。若一直读超时，先断电，�
 5. 上层命令断流超过 250 ms 后驱动停止继续下发新目标。
 
 OmniPicker 上电会自动闭合找零，这是设备固件行为，不受 ROS 控制开关阻止。
+
+## 仿真与遥操系统配合 (HC-teleop-robotic)
+
+本驱动与 `HC-teleop-robotic` 的 `HC_REALMAN` 适配包关节与话题命名完全对齐：
+- 适配包目录：`adapters/robots/HC_REALMAN/`（包含完整 URDF、STL 网格、Kinematics 与 VR 遥操配置）
+- 受控关节命名：`left_joint1` ~ `left_joint6`，`right_joint1` ~ `right_joint6`
+- 仿真运行：进入 `~/test2/HC-teleop-robotic`，在 Web 仪表盘切换到 `HC_REALMAN` 或执行 `./run.sh sim` 即可开启 PyBullet 与网页三维仿真
+- 真机联调：在 `HC-teleop-robotic` 执行 `./run.sh teleop`，并启动本项目 `./start.sh arms_control:=true hands_control:=true`
+
