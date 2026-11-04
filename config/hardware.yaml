@@ -15,7 +15,7 @@ left_arm:
   joints: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6]
   lower_limits_deg: [-178.0, -135.0, -145.0, -178.0, -178.0, -360.0]
   upper_limits_deg: [178.0, 178.0, 160.0, 178.0, 178.0, 360.0]
-  home_deg: [15.0, 35.0, 75.0, 70.0, 105.0, 0.0]
+  home_deg: [-172.0, 35.0, 75.0, 70.0, 98.0, 0.0]
   control_enabled: true
 
 right_arm:
@@ -24,7 +24,7 @@ right_arm:
   joints: [right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
   lower_limits_deg: [-178.0, -135.0, -145.0, -178.0, -178.0, -360.0]
   upper_limits_deg: [178.0, 178.0, 160.0, 178.0, 178.0, 360.0]
-  home_deg: [8.0, 35.0, 75.0, 70.0, 98.0, 0.0]
+  home_deg: [-165.0, 35.0, 75.0, 70.0, 105.0, 0.0]
   control_enabled: true
 
 hands:
