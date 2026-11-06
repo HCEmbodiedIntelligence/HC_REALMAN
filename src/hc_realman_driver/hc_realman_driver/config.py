@@ -16,6 +16,8 @@ class ArmConfig:
     upper_deg: tuple[float, ...]
     home_deg: tuple[float, ...]
     control_enabled: bool
+    online: bool
+    high_follow: bool
 
 
 @dataclass(frozen=True)
@@ -39,8 +41,15 @@ def _arm(side: str, raw: dict[str, Any]) -> ArmConfig:
         raise ValueError(f"{side}_arm contains invalid joint limits")
     if any(not lo <= h <= hi for lo, h, hi in zip(lower, home, upper)):
         raise ValueError(f"{side}_arm home is outside joint limits")
+    online = raw.get("online", True)
+    if not isinstance(online, bool):
+        raise ValueError(f"{side}_arm.online must be a boolean")
+    high_follow = raw.get("high_follow", False)
+    if not isinstance(high_follow, bool):
+        raise ValueError(f"{side}_arm.high_follow must be a boolean")
     return ArmConfig(side, str(raw["ip"]), int(raw.get("port", 8080)), joints,
-                     lower, upper, home, bool(raw.get("control_enabled", True)))
+                     lower, upper, home, bool(raw.get("control_enabled", True)),
+                     online, high_follow)
 
 
 def _hand(side: str, raw: dict[str, Any]) -> HandConfig:
@@ -56,6 +65,8 @@ def load_config(path: str) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise ValueError("hardware config root must be a mapping")
     left_arm, right_arm = _arm("left", raw["left_arm"]), _arm("right", raw["right_arm"])
+    if not any(arm.online for arm in (left_arm, right_arm)):
+        raise ValueError("at least one arm must be online")
     if set(left_arm.joints) & set(right_arm.joints):
         raise ValueError("left/right arm joint names overlap")
     if left_arm.ip == right_arm.ip and left_arm.port == right_arm.port:
